@@ -1,0 +1,20 @@
+use('discord')
+db.details.drop()
+use('discord')
+db.details.insertMany([
+  {'account':'helloworld#6656'},
+  {'account':'nullPointer#6664'},
+  {'account':'ShreyGarg#9541'}
+])
+use('discord')
+db.details.insertOne(
+  {'account':'Muhesh#0813'}
+)
+use('admin')
+db.createUser(
+  {
+    user: "deltaadmin",
+    pwd: "delta@123",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  })
+  
