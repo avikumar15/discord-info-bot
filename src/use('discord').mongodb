@@ -1,0 +1,9 @@
+use('discord')
+db.event.insertOne({
+  'name':'dwoc',
+  'type':'volunteering',
+  'date': '2021-01-06',
+  'detail':"delta winter of coding"
+})
+
+
