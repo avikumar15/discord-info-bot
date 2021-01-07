@@ -15,6 +15,8 @@ client = discord.Client()
 sched = BackgroundScheduler()
 sched.start()
 
+CHANNEL_ID = 796111099548270635
+
 
 def schedule_alerts(event):
     date = event["deadline"]
@@ -49,7 +51,7 @@ def get_event_description(event: dict):
 
 async def send_message(message):
     await client.wait_until_ready()
-    channel = client.get_channel(796111099548270635)
+    channel = client.get_channel(CHANNEL_ID)
     await channel.send(message)
 
 
@@ -63,6 +65,16 @@ async def on_ready():
 async def on_message(ctx):
     if ctx.author == client.user:
         return
+
+    if ctx.channel.id != CHANNEL_ID:
+        return
+
+    if str(ctx.content) == "!help":
+        help_string = "To add an event, type\n" \
+               "'!add category,sub-category,description,name,type,dd.mm.yyyy.hh.mm'\n" \
+               "To view all events, type\n" \
+               "'!show'"
+        ctx.channel.send(help_string)
 
     if str(ctx.content).startswith("!add "):
         event_info = str(ctx.content).split("!add ", 1)[1]
