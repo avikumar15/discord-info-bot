@@ -10,7 +10,7 @@ class MongoHelper:
 
     def insertOne(self, collection, event_data):
         event = self.mongoDb[collection]
-        result = event.inset_one(event_data)
+        result = event.insert_one(event_data)
         print(f'One post: {result.inserted_id}')
 
     def insertMany(self, collection, event_data_list):
