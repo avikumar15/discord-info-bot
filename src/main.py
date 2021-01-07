@@ -5,6 +5,7 @@ from mongo import MongoHelper
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 import asyncio
+from discord.ext import tasks
 
 print(os.getcwd())
 mongoHelper = MongoHelper("infoDB")
@@ -55,6 +56,7 @@ async def send_message(message):
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
+    delete_old_events.start()
 
 
 @client.event
@@ -89,6 +91,11 @@ async def on_message(ctx):
         upcoming_events = mongoHelper.findMany(collectionName, {})
         for event in upcoming_events:
             await ctx.channel.send(get_event_description(event))
+
+
+@tasks.loop(hours=24)
+async def delete_old_events():
+    mongoHelper.deleteEventsBefore(collectionName, datetime.datetime.now())
 
 
 client.run(token)

@@ -31,3 +31,6 @@ class MongoHelper:
 
     def deleteMany(self, collection, params):
         self.mongoDb[collection].delete_many(params)
+
+    def deleteEventsBefore(self, collection, date):
+        self.mongoDb[collection].delete_many({"deadline": {"$lt": date}})
